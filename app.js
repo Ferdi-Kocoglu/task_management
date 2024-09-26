@@ -1,11 +1,12 @@
-import { serve } from "./deps.js";
-import { configure } from "./deps.js";
+import { serve } from "./deps.js"; // Ensure this is the correct import
 import * as taskController from "./controllers/taskController.js";
 import * as workEntryController from "./controllers/workEntryController.js";
 import * as requestUtils from "./utils/requestUtils.js";
 
-const PORT = Deno.env.get("PORT") || 7777; // Default to 7777 if PORT is not set
+// Get the PORT from the environment variable or default to 7777
+const PORT = Deno.env.get("PORT") ? parseInt(Deno.env.get("PORT"), 10) : 7777;
 
+// Define the request handler
 const handleRequest = async (request) => {
   const url = new URL(request.url);
 
@@ -28,7 +29,8 @@ const handleRequest = async (request) => {
   }
 };
 
-const server = serve({ port: PORT }); // Use the defined PORT
+// Create the server and listen for requests
+const server = serve({ port: PORT });
 console.log(`Server is running on http://localhost:${PORT}`);
 
 for await (const request of server) {
