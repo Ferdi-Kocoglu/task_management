@@ -4,6 +4,8 @@ import * as taskController from "./controllers/taskController.js";
 import * as workEntryController from "./controllers/workEntryController.js";
 import * as requestUtils from "./utils/requestUtils.js";
 
+const PORT = Deno.env.get("PORT") || 7777; // Default to 7777 if PORT is not set
+
 const handleRequest = async (request) => {
   const url = new URL(request.url);
 
@@ -25,3 +27,10 @@ const handleRequest = async (request) => {
     return new Response("Not found", { status: 404 });
   }
 };
+
+const server = serve({ port: PORT }); // Use the defined PORT
+console.log(`Server is running on http://localhost:${PORT}`);
+
+for await (const request of server) {
+  handleRequest(request);
+}
